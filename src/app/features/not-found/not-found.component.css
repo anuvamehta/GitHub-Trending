@@ -1,0 +1,19 @@
+.page {
+  @apply mx-auto flex max-w-3xl flex-col items-center px-8 py-20 text-center;
+}
+
+.code {
+  @apply text-6xl font-extrabold text-gray-300;
+}
+
+.title {
+  @apply mt-2 text-3xl font-bold;
+}
+
+.message {
+  @apply mt-2 text-gray-600;
+}
+
+.home-link {
+  @apply mt-6 inline-block text-blue-600 hover:underline;
+}

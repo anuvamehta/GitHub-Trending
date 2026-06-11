@@ -1,0 +1,55 @@
+.page {
+  @apply mx-auto max-w-6xl px-6 py-8;
+}
+
+.page-header {
+  @apply mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between;
+}
+
+.title {
+  @apply inline-block bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 bg-clip-text text-2xl font-extrabold tracking-tight text-transparent;
+}
+
+.subtitle {
+  @apply mt-1 text-sm text-gray-500;
+}
+
+.controls {
+  @apply flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:items-center;
+}
+
+.search {
+  @apply flex w-full gap-2 sm:w-auto;
+}
+
+.sort {
+  @apply flex items-center gap-2 text-sm text-gray-600;
+}
+
+.sort-label {
+  @apply whitespace-nowrap;
+}
+
+.sort-select {
+  @apply rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200;
+}
+
+.search-input {
+  @apply w-full rounded-lg border border-gray-300 px-4 py-2 text-sm sm:w-72 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200;
+}
+
+.search-button {
+  @apply rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-300;
+}
+
+.status {
+  @apply text-gray-500;
+}
+
+.status-error {
+  @apply text-red-600;
+}
+
+.repo-grid {
+  @apply grid gap-5 sm:grid-cols-2 lg:grid-cols-3;
+}

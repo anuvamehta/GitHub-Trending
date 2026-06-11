@@ -1,59 +1,82 @@
-# GithubTrending
+# GitHub Trending
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.27.
+A small Angular (v21) application that lists the **top 20 trending GitHub repositories** and lets you open any repository's details page. Built with standalone components, signals, TailwindCSS, and the GitHub REST API.
 
-## Development server
+## Features
 
-To start a local development server, run:
+- **Dashboard** (`/dashboard`) - the 20 most-starred repositories from the GitHub search API.
+- **Project details** (`/project/:owner/:repo`) - a deep-linkable page with stats and a link to GitHub.
+- **Click-through navigation** - selecting a repository card routes to its details page.
+- **Back navigation** - a back link and the browser back button both return to the dashboard.
+- **Loading & error states** on both pages, plus a global HTTP error interceptor.
 
-```bash
-ng serve
-```
+## Tech stack
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+- Angular 21 (standalone components, signals, new control flow)
+- TailwindCSS 3
+- RxJS (`shareReplay` caching in the service)
+- Karma + Jasmine for tests
+- pnpm
 
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## Getting started
 
 ```bash
-ng generate --help
+pnpm install
+pnpm start          # dev server at http://localhost:4200
 ```
 
-## Building
-
-To build the project run:
+Other scripts:
 
 ```bash
-ng build
+pnpm build          # production build to dist/github-trending/browser
+pnpm test           # interactive tests (Karma)
+pnpm test:ci        # one-shot headless test run
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+## Architecture
 
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
+```
+src/app
+├── core
+│   ├── interceptors/error.interceptor.ts   # global HTTP error logging
+│   ├── models/repository.model.ts          # Repository interface
+│   └── services/github.service.ts          # GitHub API calls + shareReplay cache
+├── features
+│   ├── dashboard/                          # dashboard.component.ts + .html
+│   └── project-details/                    # project-details.component.ts + .html
+├── shared
+│   └── repository-card/                    # reusable card component
+├── app.component.ts                        # app shell (header + outlet)
+├── app.config.ts                           # providers (HttpClient, router)
+└── app.routes.ts                           # route table
 ```
 
-## Running end-to-end tests
+### Notes
 
-For end-to-end (e2e) testing, run:
+- The GitHub REST API has no dedicated trending endpoint, so the dashboard uses the search API: `GET /search/repositories?q=stars:>10000&sort=stars&order=desc&per_page=20`.
+- The service caches the trending list with `shareReplay(1)` so returning to the dashboard does not refetch.
+- The details page reads `:owner`/`:repo` from the route and fetches `GET /repos/{owner}/{repo}`, keeping it deep-linkable.
+- The browser back button works out of the box via the Angular Router.
 
-```bash
-ng e2e
+## Testing
+
+Tests use **Jasmine** (spec framework) run by **Karma** (test runner) - the Angular default. They rely on a simple mock `GithubService` (returning `of(...)` / `throwError(...)`) rather than HTTP/router test harnesses. Run them with `pnpm test:ci`.
+
+Six specs run in headless Chrome; five validate key user interactions:
+
+1. Dashboard renders a card per repository returned by the service.
+2. Each card links to its project details route (`/project/:owner/:repo`).
+3. The details page renders the repository returned by the service.
+4. The details page has a back link to the dashboard.
+5. The details page shows an error message when the request fails.
+
+## Deployment (GitHub Pages)
+
+`.github/workflows/deploy.yml` tests, builds with the correct `--base-href`, adds a SPA `404.html` fallback for deep links, and publishes to GitHub Pages on every push to `main`.
+
+To enable it:
+
+1. Push this repository to GitHub.
+2. In **Settings → Pages**, set **Source** to **GitHub Actions**.
+3. Push to `main` - the site deploys to `https://<your-user>.github.io/<repo>/`.
 ```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.

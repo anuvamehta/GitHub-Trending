@@ -1,0 +1,17 @@
+<section class="page">
+  <h1 class="title">Saved Repositories</h1>
+
+  @if (repositories().length === 0) {
+  <p class="status" data-testid="empty">
+    You have no saved repositories yet. Tap the star on a card to save it.
+  </p>
+  } @else {
+  <ul class="repo-grid">
+    @for (repo of repositories(); track repo.id) {
+    <li>
+      <app-repository-card [repo]="repo" />
+    </li>
+    }
+  </ul>
+  }
+</section>

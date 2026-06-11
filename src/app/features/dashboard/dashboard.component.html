@@ -1,0 +1,41 @@
+<section class="page">
+  <header class="page-header">
+    <div>
+      <h1 id="dashboard-heading" class="title">Trending GitHub Repositories</h1>
+    </div>
+
+    <div class="controls">
+      <label class="sort">
+        <span class="sort-label">Sort by</span>
+        <select #sortSelect class="sort-select" [value]="sort()" (change)="onSortChange(sortSelect.value)">
+          <option value="stars">Stars</option>
+          <option value="forks">Forks</option>
+        </select>
+      </label>
+      <form class="search" (submit)="onSearch($event)">
+        <label for="repo-search" class="sr-only">Search repositories by name</label>
+        <input #searchInput id="repo-search" class="search-input" type="search" name="q"
+          placeholder="Search repositories…" [value]="query()" (input)="onType(searchInput.value)" />
+        <button class="search-button" type="submit">Search</button>
+      </form>
+    </div>
+  </header>
+
+  @if (loading()) {
+  <p class="status" data-testid="loading">Loading repositories…</p>
+  } @else if (error()) {
+  <p class="status-error" data-testid="error">
+    Failed to load repositories. Please try again later.
+  </p>
+  } @else if (repositories().length === 0) {
+  <p class="status" data-testid="empty">No repositories found.</p>
+  } @else {
+  <ul class="repo-grid">
+    @for (repo of repositories(); track repo.id) {
+    <li>
+      <app-repository-card [repo]="repo" />
+    </li>
+    }
+  </ul>
+  }
+</section>

@@ -1,0 +1,51 @@
+.card {
+  @apply relative h-full rounded-xl bg-white shadow transition hover:shadow-xl;
+}
+
+.card-link {
+  @apply block h-full p-5;
+}
+
+.bookmark {
+  @apply absolute right-3 top-3 z-10 rounded-full px-2 py-1 text-xl leading-none text-gray-400 transition hover:bg-gray-100 hover:text-yellow-500 focus:outline-none focus:ring-2 focus:ring-yellow-300;
+}
+
+.bookmark-active {
+  @apply text-yellow-500;
+}
+
+.bookmark-icon {
+  @apply h-6 w-6 text-2xl leading-6;
+}
+
+.card-header {
+  @apply flex items-center gap-3 pr-8;
+}
+
+.avatar {
+  @apply h-12 w-12 rounded-full;
+}
+
+.card-identity {
+  @apply min-w-0;
+}
+
+.repo-name {
+  @apply truncate text-lg font-bold;
+}
+
+.owner {
+  @apply truncate text-sm text-gray-500;
+}
+
+.description {
+  @apply mt-3 line-clamp-2 min-h-[2.5rem] text-gray-600;
+}
+
+.stats {
+  @apply mt-3 flex flex-wrap gap-4 text-sm text-gray-700;
+}
+
+.stat {
+  @apply inline-flex items-center gap-1;
+}

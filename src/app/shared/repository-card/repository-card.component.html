@@ -1,0 +1,50 @@
+<div class="card">
+  <button
+    type="button"
+    class="bookmark"
+    [class.bookmark-active]="bookmarked()"
+    data-testid="bookmark-button"
+    [title]="bookmarked() ? 'Remove bookmark' : 'Save bookmark'"
+    (click)="toggleBookmark()"
+  >
+    <mat-icon class="bookmark-icon">{{ bookmarked() ? 'bookmark' : 'bookmark_border' }}</mat-icon>
+    <span class="sr-only">{{ bookmarked() ? 'Remove bookmark' : 'Save bookmark' }}</span>
+  </button>
+
+  <a
+    [routerLink]="['/project', repo().owner.login, repo().name]"
+    data-testid="repo-card"
+    class="card-link"
+  >
+    <div class="card-header">
+      <img class="avatar" [src]="repo().owner.avatar_url" [alt]="repo().owner.login + ' avatar'" />
+      <div class="card-identity">
+        <h2 class="repo-name">{{ repo().name }}</h2>
+        <p class="owner">{{ repo().owner.login }}</p>
+      </div>
+    </div>
+
+    <p class="description">
+      {{ repo().description || 'No description provided.' }}
+    </p>
+
+    <div class="stats">
+      <span class="stat">
+        <span>⭐</span>
+        {{ repo().stargazers_count | number }}
+        <span class="sr-only">stars</span>
+      </span>
+      <span class="stat">
+        <span>🍴</span>
+        {{ repo().forks_count | number }}
+        <span class="sr-only">forks</span>
+      </span>
+      @if (repo().language) {
+        <span class="stat">
+          <span class="sr-only">Language:</span>
+          {{ repo().language }}
+        </span>
+      }
+    </div>
+  </a>
+</div>

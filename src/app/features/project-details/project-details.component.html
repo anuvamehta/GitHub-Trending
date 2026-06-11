@@ -1,0 +1,49 @@
+<div class="page">
+  <a routerLink="/dashboard" data-testid="back-link" class="back-link">
+    <span>←</span> Back to dashboard
+  </a>
+
+  @if (loading()) {
+  <p class="status" data-testid="loading">Loading…</p>
+  } @else if (repo()) {
+  @if (repo(); as r) {
+  <article class="details">
+    <header class="details-header">
+      <img class="avatar" [src]="r.owner.avatar_url" [alt]="r.owner.login + ' avatar'" />
+      <div class="identity">
+        <h1 id="repo-title" class="title" data-testid="repo-title">{{ r.full_name }}</h1>
+        <p class="owner">{{ r.owner.login }}</p>
+      </div>
+    </header>
+
+    <p class="description">{{ r.description || 'No description provided.' }}</p>
+
+    <div class="meta">
+      <span class="stat">
+        <mat-icon class="stat-icon star">star</mat-icon>
+        {{ r.stargazers_count | number }}
+        <span class="stat-label">stars</span>
+      </span>
+      <span class="stat">
+        <mat-icon class="stat-icon">call_split</mat-icon>
+        {{ r.forks_count | number }}
+        <span class="stat-label">forks</span>
+      </span>
+      @if (r.language) {
+      <span class="stat">
+        <mat-icon class="stat-icon">code</mat-icon>
+        {{ r.language }}
+      </span>
+      }
+    </div>
+
+    <a class="github-link" target="_blank" rel="noopener noreferrer" [href]="r.html_url">
+      Open on GitHub
+      <mat-icon class="github-link-icon">open_in_new</mat-icon>
+    </a>
+  </article>
+  }
+  } @else {
+  <p class="status-error" data-testid="error">Repository not found.</p>
+  }
+</div>
