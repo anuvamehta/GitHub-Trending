@@ -1,4 +1,3 @@
-// Karma configuration for headless, CI-friendly test runs.
 module.exports = function (config) {
   config.set({
     basePath: '',
