@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { catchError, debounceTime, distinctUntilChanged, EMPTY, map, merge, Observable, Subject, switchMap, tap} from 'rxjs';
-import { GithubService, SortOption } from '../../core/services/github.service';
+import { ApiService, SortOption } from '../../core/services/api.service';
 import { Repository } from '../../core/models/repository.model';
 import { RepositoryCardComponent } from '../../shared/repository-card/repository-card.component';
 
@@ -14,7 +14,7 @@ import { RepositoryCardComponent } from '../../shared/repository-card/repository
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DashboardComponent implements OnInit {
-  private github = inject(GithubService);
+  private github = inject(ApiService);
 
   repositories = signal<Repository[]>([]);
   loading = signal(true);
@@ -68,7 +68,7 @@ export class DashboardComponent implements OnInit {
     const sort = this.sort();
     const request$ = term
       ? this.github.searchRepositories(term, sort)
-      : this.github.getTrendingRepos(sort);
+      : this.github.getTrendingRepositories(sort);
 
     return request$.pipe(
       catchError(() => {

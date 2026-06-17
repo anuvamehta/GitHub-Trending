@@ -2,7 +2,7 @@ import { DecimalPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { GithubService } from '../../core/services/github.service';
+import { ApiService } from '../../core/services/api.service';
 import { Repository } from '../../core/models/repository.model';
 
 @Component({
@@ -15,7 +15,7 @@ import { Repository } from '../../core/models/repository.model';
 })
 export class ProjectDetailsComponent implements OnInit {
   private route = inject(ActivatedRoute);
-  private github = inject(GithubService);
+  private github = inject(ApiService);
 
   repo = signal<Repository | null>(null);
   loading = signal(true);

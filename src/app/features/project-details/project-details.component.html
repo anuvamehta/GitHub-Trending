@@ -6,38 +6,38 @@
   @if (loading()) {
   <p class="status" data-testid="loading">Loading…</p>
   } @else if (repo()) {
-  @if (repo(); as r) {
+  @if (repo(); as repository) {
   <article class="details">
     <header class="details-header">
-      <img class="avatar" [src]="r.owner.avatar_url" [alt]="r.owner.login + ' avatar'" />
+      <img class="avatar" [src]="repository.owner.avatar_url" [alt]="repository.owner.login + ' avatar'" />
       <div class="identity">
-        <h1 id="repo-title" class="title" data-testid="repo-title">{{ r.full_name }}</h1>
-        <p class="owner">{{ r.owner.login }}</p>
+        <h1 id="repo-title" class="title" data-testid="repo-title">{{ repository.full_name }}</h1>
+        <p class="owner">{{ repository.owner.login }}</p>
       </div>
     </header>
 
-    <p class="description">{{ r.description || 'No description provided.' }}</p>
+    <p class="description">{{ repository.description || 'No description provided.' }}</p>
 
     <div class="meta">
       <span class="stat">
         <mat-icon class="stat-icon star">star</mat-icon>
-        {{ r.stargazers_count | number }}
+        {{ repository.stargazers_count | number }}
         <span class="stat-label">stars</span>
       </span>
       <span class="stat">
         <mat-icon class="stat-icon">call_split</mat-icon>
-        {{ r.forks_count | number }}
+        {{ repository.forks_count | number }}
         <span class="stat-label">forks</span>
       </span>
-      @if (r.language) {
+      @if (repository.language) {
       <span class="stat">
         <mat-icon class="stat-icon">code</mat-icon>
-        {{ r.language }}
+        {{ repository.language }}
       </span>
       }
     </div>
 
-    <a class="github-link" target="_blank" rel="noopener noreferrer" [href]="r.html_url">
+    <a class="github-link" target="_blank" rel="noopener noreferrer" [href]="repository.html_url">
       Open on GitHub
       <mat-icon class="github-link-icon">open_in_new</mat-icon>
     </a>

@@ -5,10 +5,10 @@ import {
   provideHttpClientTesting,
 } from '@angular/common/http/testing';
 
-import { GithubService } from './github.service';
+import { ApiService } from './api.service';
 
-describe('GithubService', () => {
-  let service: GithubService;
+describe('ApiService', () => {
+  let service: ApiService;
   let httpMock: HttpTestingController;
 
   beforeEach(() => {
@@ -16,7 +16,7 @@ describe('GithubService', () => {
       providers: [provideHttpClient(), provideHttpClientTesting()],
     });
 
-    service = TestBed.inject(GithubService);
+    service = TestBed.inject(ApiService);
     httpMock = TestBed.inject(HttpTestingController);
   });
 

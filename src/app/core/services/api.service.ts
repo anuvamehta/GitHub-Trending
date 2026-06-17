@@ -10,13 +10,13 @@ interface SearchResponse {
 export type SortOption = 'stars' | 'forks';
 
 @Injectable({ providedIn: 'root' })
-export class GithubService {
+export class ApiService {
   private http = inject(HttpClient);
 
   // Cached per sort option so revisiting the dashboard does not re-fetch the list.
   private trendingCache = new Map<SortOption, Observable<Repository[]>>();
 
-  getTrendingRepos(sort: SortOption = 'stars'): Observable<Repository[]> {
+  getTrendingRepositories(sort: SortOption = 'stars'): Observable<Repository[]> {
     if (!this.trendingCache.has(sort)) {
       const url = `https://api.github.com/search/repositories?q=stars:>10000&sort=${sort}&order=desc&per_page=20`;
       const request$ = this.http.get<SearchResponse>(url).pipe(
@@ -29,8 +29,8 @@ export class GithubService {
   }
 
   searchRepositories(name: string, sort: SortOption = 'stars'): Observable<Repository[]> {
-    const q = encodeURIComponent(`${name} in:name`);
-    const url = `https://api.github.com/search/repositories?q=${q}&sort=${sort}&order=desc&per_page=20`;
+    const query = encodeURIComponent(`${name} in:name`);
+    const url = `https://api.github.com/search/repositories?q=${query}&sort=${sort}&order=desc&per_page=20`;
     return this.http.get<SearchResponse>(url).pipe(map((res) => res.items));
   }
 

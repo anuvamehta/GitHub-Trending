@@ -2,22 +2,22 @@ import { TestBed } from '@angular/core/testing';
 import { ActivatedRoute, convertToParamMap, provideRouter } from '@angular/router';
 import { of, throwError } from 'rxjs';
 import { ProjectDetailsComponent } from './project-details.component';
-import { GithubService } from '../../core/services/github.service';
+import { ApiService } from '../../core/services/api.service';
 import { makeRepo } from '../../../testing/mock-repositories';
 
 describe('ProjectDetailsComponent', () => {
   let component: ProjectDetailsComponent;
-  let githubServiceSpy: jasmine.SpyObj<GithubService>;
+  let apiServiceSpy: jasmine.SpyObj<ApiService>;
 
   beforeEach(() => {
-    githubServiceSpy = jasmine.createSpyObj<GithubService>('GithubService', ['getRepository']);
-    githubServiceSpy.getRepository.and.returnValue(of(makeRepo()));
+    apiServiceSpy = jasmine.createSpyObj<ApiService>('ApiService', ['getRepository']);
+    apiServiceSpy.getRepository.and.returnValue(of(makeRepo()));
 
     TestBed.configureTestingModule({
       imports: [ProjectDetailsComponent],
       providers: [
         provideRouter([]),
-        { provide: GithubService, useValue: githubServiceSpy },
+        { provide: ApiService, useValue: apiServiceSpy },
         {
           provide: ActivatedRoute,
           useValue: {
@@ -38,16 +38,16 @@ describe('ProjectDetailsComponent', () => {
 
   describe('ngOnInit', () => {
     it('should request the repository from the route params', () => {
-      githubServiceSpy.getRepository.and.returnValue(of(makeRepo()));
+      apiServiceSpy.getRepository.and.returnValue(of(makeRepo()));
 
       component.ngOnInit();
 
-      expect(githubServiceSpy.getRepository).toHaveBeenCalledOnceWith('facebook', 'react');
+      expect(apiServiceSpy.getRepository).toHaveBeenCalledOnceWith('facebook', 'react');
     });
 
     it('should expose the fetched repository on the component state', () => {
       const repo = makeRepo({ full_name: 'facebook/react', description: 'A declarative UI library.' });
-      githubServiceSpy.getRepository.and.returnValue(of(repo));
+      apiServiceSpy.getRepository.and.returnValue(of(repo));
 
       component.ngOnInit();
 
@@ -57,7 +57,7 @@ describe('ProjectDetailsComponent', () => {
     });
 
     it('should flag an error when the request fails', () => {
-      githubServiceSpy.getRepository.and.returnValue(throwError(() => new Error('fail')));
+      apiServiceSpy.getRepository.and.returnValue(throwError(() => new Error('fail')));
 
       component.ngOnInit();
 
